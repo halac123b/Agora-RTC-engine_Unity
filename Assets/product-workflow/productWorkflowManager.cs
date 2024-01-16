@@ -16,8 +16,12 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
 
     public void ChangeVolume(int volume)
     {
-        // Adjust the volume of the recorded signal.
-        agoraEngine.AdjustRecordingSignalVolume(volume);
+        agoraEngine.AdjustPlaybackSignalVolume(volume);
+        agoraEngine.AdjustUserPlaybackSignalVolume(remoteUid, volume);
+        agoraEngine.AdjustAudioMixingVolume(volume);
+        agoraEngine.AdjustAudioMixingPlayoutVolume(volume);
+        agoraEngine.AdjustAudioMixingPublishVolume(volume);
+        agoraEngine.SetInEarMonitoringVolume(volume);
     }
 
     public void MuteRemoteAudio(bool value)
@@ -26,6 +30,8 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
         {
             // Pass the uid of the remote user you want to mute.
             agoraEngine.MuteRemoteAudioStream(remoteUid, value);
+            agoraEngine.MuteAllRemoteAudioStreams(value);
+            agoraEngine.MuteLocalAudioStream(value);
         }
         else
         {
